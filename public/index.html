@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Suraksha AI Pro — disaster preparedness, risk intelligence and infrastructure resilience." />
+  <title>Suraksha AI Pro | Disaster Intelligence</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="ambient ambient-a"></div>
+  <div class="ambient ambient-b"></div>
+
+  <header class="topbar">
+    <a class="brand" href="#home">
+      <span class="brand-mark">S</span>
+      <span><b>SURAKSHA</b><small>AI PRO / RESILIENCE OS</small></span>
+    </a>
+    <nav>
+      <a href="#home">Home</a>
+      <a href="#intelligence">Intelligence</a>
+      <a href="#infrastructure">Infrastructure</a>
+      <a href="#preparedness">Preparedness</a>
+    </nav>
+    <button class="outline-btn" id="locateBtn">◎ Detect location</button>
+  </header>
+
+  <main>
+    <section id="home" class="hero section">
+      <div class="hero-copy">
+        <div class="eyebrow"><span class="live-dot"></span> RESILIENCE NETWORK / ONLINE</div>
+        <h1>See the risk.<br><span>Prepare before it spreads.</span></h1>
+        <p class="hero-text">
+          Suraksha AI Pro turns disaster signals, location context and nearby infrastructure
+          into one simple decision-support dashboard for people, farms and cities.
+        </p>
+        <div class="hero-actions">
+          <button class="primary-btn" id="launchBtn">Launch command center <span>↗</span></button>
+          <a class="ghost-link" href="#intelligence">Explore system ↓</a>
+        </div>
+        <div class="hero-stats">
+          <div><strong>03</strong><span>disaster modes</span></div>
+          <div><strong>24/7</strong><span>preparedness mindset</span></div>
+          <div><strong>03</strong><span>languages planned</span></div>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <div class="orbital-ring ring-one"></div>
+        <div class="orbital-ring ring-two"></div>
+        <div class="radar">
+          <div class="radar-sweep"></div>
+          <div class="radar-core"></div>
+          <span class="radar-ping ping-one"></span>
+          <span class="radar-ping ping-two"></span>
+          <span class="radar-ping ping-three"></span>
+        </div>
+        <div class="floating-card card-top"><span>RISK ENGINE</span><b>ACTIVE</b></div>
+        <div class="floating-card card-bottom"><span>LOCAL CONTEXT</span><b id="heroLocation">Awaiting location</b></div>
+      </div>
+    </section>
+
+    <section id="intelligence" class="section dashboard-section">
+      <div class="section-heading">
+        <div>
+          <div class="eyebrow">01 / INTELLIGENCE</div>
+          <h2>Choose your threat model.</h2>
+        </div>
+        <p>The dashboard is designed to translate technical risk signals into actions a normal person can understand.</p>
+      </div>
+
+      <div class="mode-grid">
+        <button class="mode-card active" data-mode="flood">
+          <span class="mode-number">01</span><span class="mode-icon">🌊</span>
+          <strong>Flood</strong><small>Water level + exposure</small>
+        </button>
+        <button class="mode-card" data-mode="earthquake">
+          <span class="mode-number">02</span><span class="mode-icon">◒</span>
+          <strong>Earthquake</strong><small>Preparedness + structures</small>
+        </button>
+        <button class="mode-card" data-mode="cyclone">
+          <span class="mode-number">03</span><span class="mode-icon">🌀</span>
+          <strong>Cyclone</strong><small>Wind + shelter readiness</small>
+        </button>
+      </div>
+
+      <div class="control-panel">
+        <div class="panel-head">
+          <div>
+            <span class="panel-kicker">SIMULATION CONTROLS</span>
+            <h3>Build a local risk scenario</h3>
+          </div>
+          <span class="status-pill" id="apiStatus">API checking…</span>
+        </div>
+        <div class="sliders">
+          <label>Environmental pressure <output id="rainVal">55</output>
+            <input id="rain" type="range" min="0" max="100" value="55"></label>
+          <label>Population exposure <output id="popVal">50</output>
+            <input id="population" type="range" min="0" max="100" value="50"></label>
+          <label>Infrastructure sensitivity <output id="infraVal">45</output>
+            <input id="infrastructure" type="range" min="0" max="100" value="45"></label>
+          <label>Preparedness buffer <output id="prepVal">60</output>
+            <input id="preparedness" type="range" min="0" max="100" value="60"></label>
+        </div>
+        <button class="primary-btn small" id="analyzeBtn">Run risk analysis ↗</button>
+      </div>
+
+      <div class="analytics-grid">
+        <article class="glass risk-card">
+          <div class="card-label">CURRENT RISK</div>
+          <div class="risk-number"><span id="riskNumber">--</span><small>%</small></div>
+          <div class="risk-track"><span id="riskBar"></span></div>
+          <div class="risk-meta"><span id="riskLevel">Waiting</span><span id="confidence">-- confidence</span></div>
+          <p id="riskExplanation">Run the analysis to generate a scenario.</p>
+        </article>
+
+        <article class="glass chart-card">
+          <div class="card-label">7-STEP RISK TRAJECTORY</div>
+          <div class="mini-chart" id="miniChart"></div>
+          <div class="chart-foot"><span>Now</span><span>Forecast horizon</span></div>
+        </article>
+
+        <article class="glass factor-card">
+          <div class="card-label">DRIVERS</div>
+          <div id="factorList"></div>
+        </article>
+      </div>
+    </section>
+
+    <section id="infrastructure" class="section">
+      <div class="section-heading">
+        <div><div class="eyebrow">02 / INFRASTRUCTURE</div><h2>What is around you?</h2></div>
+        <p>Critical assets become part of the risk conversation instead of staying as isolated map points.</p>
+      </div>
+      <div class="infra-layout">
+        <div class="map-shell"><div id="map"></div><div class="map-overlay"><b id="mapLocation">India / overview</b><span>OpenStreetMap layer</span></div></div>
+        <div class="glass infra-list">
+          <div class="panel-head"><div><span class="panel-kicker">PROXIMITY SCAN</span><h3>Nearby critical points</h3></div><span id="infraCount" class="count-badge">0</span></div>
+          <div id="infraItems" class="infra-items"><div class="empty">Detect a location to scan nearby infrastructure.</div></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="preparedness" class="section">
+      <div class="section-heading">
+        <div><div class="eyebrow">03 / PREPAREDNESS</div><h2>Turn awareness into action.</h2></div>
+        <p>Complete the checklist to create a local preparedness record.</p>
+      </div>
+      <div class="prep-layout">
+        <div class="glass checklist">
+          <div class="panel-head"><div><span class="panel-kicker">ACTION PROTOCOL</span><h3 id="actionTitle">Flood response checklist</h3></div><span id="actionCount">0 / 5</span></div>
+          <div id="actions"></div>
+        </div>
+        <div class="glass certificate">
+          <div class="cert-glow">✦</div>
+          <span class="panel-kicker">READINESS RECORD</span>
+          <h3>Survival readiness certificate</h3>
+          <p>Generate a signed demo record after completing your action protocol.</p>
+          <div class="cert-score"><strong id="certScore">0%</strong><span>readiness</span></div>
+          <button class="primary-btn" id="certBtn">Generate certificate</button>
+          <div id="certResult" class="cert-result hidden"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div><b>SURAKSHA AI PRO</b><span>Disaster intelligence for human resilience.</span></div>
+    <span>Prototype / educational project • 2026</span>
+  </footer>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

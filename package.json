@@ -1,0 +1,13 @@
+{
+  "name": "suraksha-ai-pro",
+  "version": "2.0.0",
+  "description": "Suraksha AI Pro \u2014 location-aware disaster preparedness and infrastructure resilience dashboard.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.21.2"
+  }
+}
